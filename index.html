@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobills Recharge</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 500px;
+            background-color: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            margin: 0 auto;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #2c3e50, #4a69bd);
+            color: white;
+            padding: 25px;
+            text-align: center;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 0;
+        }
+        
+        .user-info {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        .sim-card-container {
+            padding: 25px;
+            background: linear-gradient(145deg, #f8f9fa, #e9ecef);
+            margin: 20px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            position: relative;
+        }
+        
+        .sim-card {
+            width: 100%;
+            height: 180px;
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            border-radius: 12px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(52, 152, 219, 0.3);
+        }
+        
+        .sim-chip {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            width: 40px;
+            height: 30px;
+            background: linear-gradient(135deg, #f1c40f, #f39c12);
+            border-radius: 5px;
+        }
+        
+        .network-info {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255,255,255,0.9);
+            padding: 8px 12px;
+            border-radius: 20px;
+        }
+        
+        .signal-bars {
+            display: flex;
+            align-items: end;
+            gap: 2px;
+            height: 15px;
+        }
+        
+        .signal-bar {
+            width: 3px;
+            background: #27ae60;
+            border-radius: 1px;
+        }
+        
+        .signal-bar:nth-child(1) { height: 5px; }
+        .signal-bar:nth-child(2) { height: 8px; }
+        .signal-bar:nth-child(3) { height: 11px; }
+        .signal-bar:nth-child(4) { height: 14px; }
+        
+        .network-type {
+            font-size: 14px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        
+        .sim-details {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+            color: white;
+            text-align: center;
+        }
+        
+        .sim-number {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 8px;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+            direction: ltr;
+            letter-spacing: 1px;
+        }
+        
+        .total-solde {
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 5px;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+            direction: ltr;
+        }
+        
+        .sim-operator {
+            font-size: 16px;
+            font-weight: bold;
+            opacity: 0.9;
+        }
+        
+        .service-register {
+            margin: 20px;
+            padding: 20px;
+            background: linear-gradient(135deg, #74b9ff, #0984e3);
+            border-radius: 15px;
+            text-align: center;
+            font-weight: bold;
+            color: white;
+            font-size: 18px;
+        }
+        
+        .history-title {
+            margin: 20px;
+            font-weight: bold;
+            color: #2c3e50;
+            font-size: 18px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #74b9ff;
+        }
+        
+        table {
+            width: calc(100% - 40px);
+            border-collapse: collapse;
+            margin: 0 20px 20px;
+            font-size: 14px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        th, td {
+            padding: 12px 8px;
+            text-align: center;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        th {
+            background: linear-gradient(135deg, #74b9ff, #0984e3);
+            color: white;
+            font-weight: bold;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        
+        .logout-btn {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            margin: 0 20px 20px;
+            width: calc(100% - 40px);
+            padding: 14px;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .logout-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(231, 76, 60, 0.6);
+        }
+        
+        .received-cell {
+            width: 60px;
+        }
+        
+        .received-cell input {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            margin: 0 auto;
+        }
+        
+        .no-data {
+            text-align: center;
+            padding: 30px;
+            color: #7f8c8d;
+            font-style: italic;
+            font-size: 16px;
+        }
+        
+        .amount-cell {
+            font-weight: bold;
+            color: #27ae60;
+            direction: ltr;
+        }
+        
+        .time-cell {
+            direction: ltr;
+            font-family: monospace;
+            color: #7f8c8d;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+        }
+        
+        .error-message {
+            background: rgba(231, 76, 60, 0.1);
+            color: #e74c3c;
+            padding: 20px;
+            margin: 20px;
+            border-radius: 10px;
+            text-align: center;
+            border: 1px solid rgba(231, 76, 60, 0.2);
+        }
+
+        /* أنماط الترقيم */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 20px 0;
+            gap: 10px;
+        }
+        
+        .pagination button {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #74b9ff, #0984e3);
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+        
+        .pagination button:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(116, 185, 255, 0.4);
+        }
+        
+        .pagination button:disabled {
+            background: #bdc3c7;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .pagination-info {
+            color: #2c3e50;
+            font-weight: bold;
+            font-size: 14px;
+            margin: 0 15px;
+        }
+        
+        .page-size-selector {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 10px 0 20px;
+            gap: 10px;
+        }
+        
+        .page-size-selector select {
+            padding: 8px 12px;
+            border: 2px solid #74b9ff;
+            border-radius: 8px;
+            font-size: 14px;
+            background: white;
+            color: #2c3e50;
+        }
+        
+        .page-size-selector label {
+            color: #2c3e50;
+            font-weight: bold;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Admin Panel</h1>
+            <div class="user-info" id="userInfo">Logged in as:</div>
+        </div>
+        
+        <div id="content">
+            <!-- المحتوى سيتم تحميله هنا -->
+        </div>
+
+        <button id="logoutBtn" class="logout-btn">تسجيل الخروج</button>
+    </div>
+
+    <script>
+        // عناصر DOM
+        const contentDiv = document.getElementById('content');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const userInfo = document.getElementById('userInfo');
+
+        // بيانات التطبيق
+        let rechargeHistory = [];
+        let simData = {};
+        let currentPage = 1;
+        let itemsPerPage = 10;
+
+        // التحقق من تسجيل الدخول
+        function checkLogin() {
+            const isLoggedIn = localStorage.getItem('isLoggedIn');
+            const username = localStorage.getItem('username');
+            
+            if (isLoggedIn !== 'true' || !username) {
+                window.location.href = 'login.html';
+                return false;
+            }
+            
+            userInfo.textContent = `مرحباً ${username}`;
+            return true;
+        }
+
+        // تسجيل الخروج
+        function logout() {
+            localStorage.removeItem('isLoggedIn');
+            localStorage.removeItem('username');
+            localStorage.removeItem('loginTime');
+            window.location.href = 'login.html';
+        }
+
+        // تحميل بيانات الشحن
+        async function loadRechargeHistory() {
+            try {
+                const response = await fetch('recharge_data.json');
+                if (!response.ok) throw new Error('فشل تحميل بيانات الشحن');
+                
+                const data = await response.json();
+                await loadCheckStates(data);
+                
+                return true;
+            } catch (error) {
+                console.error('خطأ في تحميل بيانات الشحن:', error);
+                rechargeHistory = [];
+                return true; // نعود true حتى يستمر التطبيق
+            }
+        }
+
+        // تحميل بيانات الشريحة
+        async function loadSimData() {
+            try {
+                const response = await fetch('sim_data.json');
+                if (!response.ok) throw new Error('فشل تحميل بيانات الشريحة');
+                
+                simData = await response.json();
+                return true;
+            } catch (error) {
+                console.error('خطأ في تحميل بيانات الشريحة:', error);
+                simData = {
+                    simNumber: "+213 XXX XXX XXX",
+                    totalSolde: "0"
+                };
+                return true; // نعود true حتى يستمر التطبيق
+            }
+        }
+
+        // تحميل حالة التحديد
+        async function loadCheckStates(data) {
+            try {
+                const response = await fetch('check_states.json');
+                if (response.ok) {
+                    const checkStates = await response.json();
+                    rechargeHistory = data.map(item => ({
+                        ...item,
+                        checked: checkStates[item.id] || false
+                    }));
+                } else {
+                    rechargeHistory = data.map(item => ({
+                        ...item,
+                        checked: false
+                    }));
+                }
+            } catch (error) {
+                rechargeHistory = data.map(item => ({
+                    ...item,
+                    checked: false
+                }));
+            }
+        }
+
+        // حفظ حالة التحديد
+        async function saveCheckStates() {
+            try {
+                const checkStates = {};
+                rechargeHistory.forEach(item => {
+                    checkStates[item.id] = item.checked;
+                });
+                
+                await fetch('save_check_states.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({checkStates: checkStates})
+                });
+            } catch (error) {
+                console.log('تم حفظ حالة التحديد محلياً');
+                const checkStates = {};
+                rechargeHistory.forEach(item => {
+                    checkStates[item.id] = item.checked;
+                });
+                localStorage.setItem('checkStates', JSON.stringify(checkStates));
+            }
+        }
+
+        // تحديث حالة التحديد
+        async function updateCheckStatus(id, isChecked) {
+            const record = rechargeHistory.find(item => item.id === id);
+            if (record) {
+                record.checked = isChecked;
+                await saveCheckStates();
+                renderUI(); // إعادة عرض الواجهة لتحديث التغييرات
+            }
+        }
+
+        // الحصول على البيانات للصفحة الحالية
+        function getCurrentPageData() {
+            const startIndex = (currentPage - 1) * itemsPerPage;
+            const endIndex = startIndex + itemsPerPage;
+            return rechargeHistory.slice(startIndex, endIndex);
+        }
+
+        // تغيير الصفحة
+        function changePage(newPage) {
+            const totalPages = Math.ceil(rechargeHistory.length / itemsPerPage);
+            if (newPage < 1 || newPage > totalPages) return;
+            
+            currentPage = newPage;
+            renderUI();
+        }
+
+        // تغيير عدد العناصر في الصفحة
+        function changeItemsPerPage(newSize) {
+            itemsPerPage = parseInt(newSize);
+            currentPage = 1;
+            renderUI();
+        }
+
+        // عرض واجهة المستخدم
+        function renderUI() {
+            const currentData = getCurrentPageData();
+            const totalPages = Math.ceil(rechargeHistory.length / itemsPerPage);
+            const startItem = (currentPage - 1) * itemsPerPage + 1;
+            const endItem = Math.min(currentPage * itemsPerPage, rechargeHistory.length);
+            const totalItems = rechargeHistory.length;
+
+            let html = `
+                <div class="sim-card-container">
+                    <div class="sim-card">
+                        <div class="sim-chip"></div>
+                        <div class="network-info">
+                            <div class="signal-bars">
+                                <div class="signal-bar"></div>
+                                <div class="signal-bar"></div>
+                                <div class="signal-bar"></div>
+                                <div class="signal-bar"></div>
+                            </div>
+                            <div class="network-type">3G</div>
+                        </div>
+                        <div class="sim-details">
+                            <div class="total-solde">${simData.totalSolde || '0'} DA</div>
+                            <div class="sim-number">${simData.simNumber || '+213 XXX XXX XXX'}</div>
+                            <div class="sim-operator">Mobilis Algeria</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="service-register">
+                    RECHARGE LIST
+                </div>
+                
+                <div class="history-title"><center><span id="currentDate"></span></center></div>
+
+                <div class="page-size-selector">
+                    <label for="pageSize">عدد العناصر في الصفحة:</label>
+                    <select id="pageSize" onchange="changeItemsPerPage(this.value)">
+                        <option value="5" ${itemsPerPage === 5 ? 'selected' : ''}>5</option>
+                        <option value="10" ${itemsPerPage === 10 ? 'selected' : ''}>10</option>
+                        <option value="20" ${itemsPerPage === 20 ? 'selected' : ''}>20</option>
+                        <option value="50" ${itemsPerPage === 50 ? 'selected' : ''}>50</option>
+                    </select>
+                </div>
+                
+                <table>
+                    <thead>
+                        <tr>
+                            <th>المبلغ</th>
+                            <th>الوقت</th>
+                            <th class="received-cell">الحالة</th>
+                        </tr>
+                    </thead>
+                    <tbody id="historyTableBody">
+            `;
+
+            if (currentData.length === 0) {
+                html += `
+                    <tr>
+                        <td colspan="3" class="no-data">لا توجد بيانات شحن</td>
+                    </tr>
+                `;
+            } else {
+                currentData.forEach(record => {
+                    html += `
+                        <tr>
+                            <td class="amount-cell">${record.amount || '0'} DA</td>
+                            <td class="time-cell">${record.time || 'غير محدد'}</td>
+                            <td class="received-cell">
+                                <input type="checkbox" ${record.checked ? 'checked' : ''} 
+                                       onchange="updateCheckStatus(${record.id}, this.checked)">
+                            </td>
+                        </tr>
+                    `;
+                });
+            }
+
+            html += `
+                    </tbody>
+                </table>
+            `;
+
+            // إضافة الترقيم فقط إذا كان هناك أكثر من صفحة
+            if (totalPages > 1) {
+                html += `
+                    <div class="pagination">
+                        <button onclick="changePage(1)" ${currentPage === 1 ? 'disabled' : ''}>
+                            الأولى
+                        </button>
+                        <button onclick="changePage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}>
+                            السابق
+                        </button>
+                        
+                        <span class="pagination-info">
+                            الصفحة ${currentPage} من ${totalPages}
+                        </span>
+                        
+                        <button onclick="changePage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''}>
+                            التالي
+                        </button>
+                        <button onclick="changePage(${totalPages})" ${currentPage === totalPages ? 'disabled' : ''}>
+                            الأخيرة
+                        </button>
+                    </div>
+                `;
+            }
+
+            html += `
+                <div style="text-align: center; margin-bottom: 20px; color: #666; font-size: 14px;">
+                    عرض ${startItem}-${endItem} من أصل ${totalItems} عملية
+                </div>
+            `;
+
+            contentDiv.innerHTML = html;
+            
+            // تعيين تاريخ اليوم
+            const today = new Date();
+            const dateString = `${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,'0')}-${String(today.getDate()).padStart(2,'0')}`;
+            const currentDateElement = document.getElementById('currentDate');
+            if (currentDateElement) {
+                currentDateElement.textContent = dateString;
+            }
+        }
+
+        // تهيئة التطبيق
+        async function initApp() {
+            if (!checkLogin()) return;
+
+            // عرض رسالة تحميل
+            contentDiv.innerHTML = '<div class="loading">جاري تحميل البيانات...</div>';
+
+            try {
+                // تحميل البيانات
+                await Promise.all([
+                    loadRechargeHistory(),
+                    loadSimData()
+             ]);
+
+                // عرض الواجهة
+                renderUI();
+                
+            } catch (error) {
+                console.error('خطأ في تهيئة التطبيق:', error);
+                contentDiv.innerHTML = `
+                    <div class="error-message">
+                        ❌ حدث خطأ في تحميل البيانات. يرجى التحقق من اتصال الإنترنت والمحاولة مرة أخرى.
+                    </div>
+                `;
+            }
+        }
+
+        // أحداث
+        logoutBtn.addEventListener('click', logout);
+
+        // جعل الدوال متاحة globally
+        window.updateCheckStatus = updateCheckStatus;
+        window.changePage = changePage;
+        window.changeItemsPerPage = changeItemsPerPage;
+
+        // بدء التطبيق
+        document.addEventListener('DOMContentLoaded', function() {
+            initApp();
+        });
+    </script>
+</body>
+</html>
